@@ -14,8 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require underscore
-//= require backbone
-//= require marionette
+//= require angular
 //= require bootstrap
 
 //= require_tree .

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'search/get'
+  get 'search/fields'
 
   root 'home#index'
 

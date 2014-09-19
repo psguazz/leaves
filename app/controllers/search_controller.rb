@@ -1,4 +1,5 @@
 class SearchController < ApplicationController
-  def get
+  def fields
+    "nothing yet."
   end
 end
