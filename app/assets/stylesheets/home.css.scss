@@ -4,24 +4,31 @@
 
 div.app {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   align-items: stretch;
-  height: 800px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
   div.toolbar {
     background-color: deepskyblue;
-    height: 65px;
+    flex: 0 100px;
+  }
+
+  div.body {
     flex: 0 100%;
-  }
+    display: flex;
 
-  div.search {
-    background-color: tomato;
-    flex: 0 200px;
-    height: 100%;
-  }
+    div.search {
+      background-color: tomato;
+      flex: 0 200px;
+    }
 
-  div.content {
-    background-color: gold;
-    flex: 1 auto;
+    div.content {
+      background-color: gold;
+      flex: 1 auto;
+    }
   }
 }

@@ -2,18 +2,22 @@
 
   <div class="toolbar"> Main bar </div>
 
-  <div class="search">
-    <div class="field" ng-repeat="field in fields">
-      <span class="fieldName">{{ field.name }}</span>
-      <input type="text" ng-model="field.value">
+  <div class="body">
+
+    <div class="search">
+      <div class="field" ng-repeat="field in fields">
+        <span class="fieldName">{{ field.name }}</span>
+        <input type="text" ng-model="field.value">
+      </div>
+
+      <button ng-click="search()"> Go! </button>
     </div>
 
-    <button ng-click="search()"> Go! </button>
-  </div>
+    <div class="content">
+      <ul class="item" ng-repeat="result in results">
+        <li class="fieldName">{{ result }}</li>
+      </ul>
+    </div>
 
-  <div class="content">
-    <ul class="item" ng-repeat="result in results">
-      <li class="fieldName">{{ result }}</li>
-    </ul>
   </div>
 </div>
