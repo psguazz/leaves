@@ -1,0 +1,12 @@
+defaults: &defaults
+  sparql_server: http://somethingsomething/sparql/
+  ontology_prefix: blargh
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

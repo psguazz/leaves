@@ -13,6 +13,14 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+config_file = File.expand_path('../application.yml', __FILE__)
+if (File.exists?(config_file))
+  CONFIG = YAML.load(File.read(config_file))
+  CONFIG.merge! CONFIG.fetch(Rails.env, {})
+else
+  CONFIG = {}
+end
+
 module Leaves
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
