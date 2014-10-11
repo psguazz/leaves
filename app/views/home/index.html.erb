@@ -1,11 +1,11 @@
-<div class="app" ng-app="leaves" ng-controller="searchController">
+<div class="app" ng-app="leaves">
 
   <div class="toolbar"> Main bar </div>
 
-  <div class="body">
+  <div class="body" ng-controller="searchController">
 
     <div class="search">
-      <div class="field" ng-repeat="field in fields">
+      <div class="field" ng-repeat="field in searchFields">
         <span class="fieldName">{{ field.name }}</span>
         <input type="text" ng-model="field.value">
       </div>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="content">
-      <ul class="item" ng-repeat="result in results">
+      <ul class="item" ng-repeat="result in searchResults">
         <li class="fieldName">{{ result }}</li>
       </ul>
     </div>

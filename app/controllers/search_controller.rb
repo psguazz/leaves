@@ -18,13 +18,15 @@ class SearchController < ApplicationController
     render json: parse_results(response.body)
   end
 
+  def get_things
+    render json: params[:fields]
+  end
+
   def parse_results(data)
     data = JSON.parse(data)['results']['bindings']
     results = {}
 
     data.each do |triple|
-      triple.each { |k, v| v['value'] = v['value'][v['value'].index('#')+1, v['value'].length] }
-
       results[triple['s']['value']] = results[triple['s']['value']] || {}
       results[triple['s']['value']][triple['p']['value']] = results[triple['s']['value']][triple['p']['value']] || []
       results[triple['s']['value']][triple['p']['value']] += [triple['o']['value']]

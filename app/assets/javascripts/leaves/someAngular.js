@@ -1,13 +1,22 @@
-var Leaves = angular.module('leaves', [])
+var Leaves = angular.module('leaves', []);
 
 Leaves.controller('searchController', function ($scope, $http) {
   $http.get('search/fields').then(function (newFields) {
-    $scope.fields = newFields.data;
+    $scope.searchFields = newFields.data;
   });
 
-  $scope.results = [];
+  $scope.searchResults = [];
 
   $scope.search = function () {
-    $scope.results = _.pluck($scope.fields, 'value');
+    var fields = _.map($scope.searchFields, function (f) {
+      return { name: f.name, value: f.value};
+    });
+
+    $http.post(
+      'search/get_things',
+      {fields: fields}
+    ).then(function (results) {
+      $scope.searchResults = results.data;
+    });
   };
 });
