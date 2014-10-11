@@ -3,9 +3,9 @@ require 'uri'
 require 'json'
 
 class SearchController < ApplicationController
-  def fields
-    uri = URI.parse(CONFIG['sparql_server'] + 'select?output=json')
+  @@sparql_uri = URI.parse(CONFIG['sparql_server'] + 'select?output=json')
 
+  def fields
     query = 'PREFIX foo: <' + CONFIG['ontology_prefix'] + '#>
              SELECT DISTINCT ?s ?p ?o
              WHERE {
@@ -13,13 +13,16 @@ class SearchController < ApplicationController
                   ?p ?o .
              } '
 
-    response = Net::HTTP.post_form(uri, 'query' => query)
-
-    render json: parse_results(response.body)
+    render json: get_results(query)
   end
 
-  def get_things
+  def fetch
     render json: params[:fields]
+  end
+
+  def get_results(query)
+    response = Net::HTTP.post_form(@@sparql_uri, 'query' => query)
+    parse_results(response.body)
   end
 
   def parse_results(data)
@@ -27,6 +30,8 @@ class SearchController < ApplicationController
     results = {}
 
     data.each do |triple|
+      triple.each { |k, v| v['value'] = v['value'][v['value'].index('#')+1, v['value'].length] }
+
       results[triple['s']['value']] = results[triple['s']['value']] || {}
       results[triple['s']['value']][triple['p']['value']] = results[triple['s']['value']][triple['p']['value']] || []
       results[triple['s']['value']][triple['p']['value']] += [triple['o']['value']]

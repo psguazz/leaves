@@ -13,7 +13,7 @@ Leaves.controller('searchController', function ($scope, $http) {
     });
 
     $http.post(
-      'search/get_things',
+      'search/fetch',
       {fields: fields}
     ).then(function (results) {
       $scope.searchResults = results.data;

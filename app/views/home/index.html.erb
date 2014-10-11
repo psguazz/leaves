@@ -5,12 +5,14 @@
   <div class="body" ng-controller="searchController">
 
     <div class="search">
-      <div class="field" ng-repeat="field in searchFields">
-        <span class="fieldName">{{ field.name }}</span>
-        <input type="text" ng-model="field.value">
-      </div>
+      <form name="query" novalidate>
+        <div class="field" ng-repeat="field in searchFields">
+          <span class="fieldName">{{ field.name }}</span>
+          <input type="text" ng-model="field.value">
+        </div>
 
-      <button ng-click="search()"> Go! </button>
+        <button ng-click="search()"> Go! </button>
+      </form>
     </div>
 
     <div class="content">
