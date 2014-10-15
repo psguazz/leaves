@@ -11,7 +11,7 @@ class SearchController < ApplicationController
              WHERE {
                ?s a foo:CompositionTaxonomyTag ;
                   ?p ?o .
-             } '
+             }'
 
     render json: get_results(query)
   end
