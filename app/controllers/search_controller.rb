@@ -22,16 +22,14 @@ class SearchController < ApplicationController
 
   def get_results(query)
     response = Net::HTTP.post_form(@@sparql_uri, 'query' => query)
-    parse_results(response.body)
+    data = JSON.parse(response.body)['results']['bindings']
+    parse_results(data)
   end
 
-  def parse_results(data)
-    data = JSON.parse(data)['results']['bindings']
+  def parse_results(json_triples)
     results = {}
 
-    data.each do |triple|
-      triple.each { |k, v| v['value'] = v['value'][v['value'].index('#')+1, v['value'].length] }
-
+    json_triples.each do |triple|
       results[triple['s']['value']] = results[triple['s']['value']] || {}
       results[triple['s']['value']][triple['p']['value']] = results[triple['s']['value']][triple['p']['value']] || []
       results[triple['s']['value']][triple['p']['value']] += [triple['o']['value']]
