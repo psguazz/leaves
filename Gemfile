@@ -5,6 +5,8 @@ gem 'rails', '4.1.0'
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'autotest'
+  gem 'webmock'
 end
 
 group :test do
