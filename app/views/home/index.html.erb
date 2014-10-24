@@ -1,25 +1,27 @@
-<div class="app" ng-app="leaves">
+<div id="app" ng-app="leaves">
 
-  <div class="toolbar"> Main bar </div>
+  <div id="toolbar"> Main bar </div>
 
-  <div class="body" ng-controller="searchController">
+  <div id="body" ng-controller="searchController">
 
-    <div class="search">
-      <form name="query" novalidate>
-        <div class="taxonomies">
-          <select ng-model="taxonomy" ng-change="loadFields()" ng-options="uri as t.Label[0] for (uri, t) in taxonomyList"></select>
-        </div>
+    <div id="query-builder">
+      <div id="taxonomies">
+        <select ng-model="taxonomy" ng-change="loadFields()" ng-options="uri as t.Label[0] for (uri, t) in taxonomyList"></select>
+      </div>
 
+      <form id="query" novalidate>
         <div class="field" ng-repeat="field in searchFields">
           <span class="fieldName">{{ field.name }}</span>
           <input type="text" ng-model="field.value">
         </div>
-
-        <button ng-click="search()"> Go! </button>
       </form>
+
+      <div id="search">
+        <a class="btn-go btn btn-default" ng-click="search()"> Go! </a>
+      </div>
     </div>
 
-    <div class="content">
+    <div id="content">
       <ul class="item" ng-repeat="result in searchResults">
         <li class="fieldName">{{ result }}</li>
       </ul>

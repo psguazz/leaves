@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-div.app {
+div#app {
   display: flex;
   flex-flow: column;
   align-items: stretch;
@@ -12,23 +12,23 @@ div.app {
   left: 0;
   right: 0;
 
-  div.toolbar {
+  div#toolbar {
     background-color: deepskyblue;
     flex: 0 100px;
     padding: 10px;
   }
 
-  div.body {
+  div#body {
     flex: 0 100%;
     display: flex;
 
-    div.search {
+    div#query-builder {
       background-color: tomato;
       flex: 0 200px;
       padding: 10px;
     }
 
-    div.content {
+    div#content {
       background-color: gold;
       flex: 1 auto;
       padding: 10px;
