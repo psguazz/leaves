@@ -9,9 +9,9 @@ describe SearchController, :type => :controller do
       .to_return(:body => triple, :status => 200)
   end
 
-  describe 'GET fields' do
+  describe 'POST fields' do
     it 'returns HTTP Success' do
-      get 'fields'
+      post 'fields'
       expect(response).to be_success
     end
   end

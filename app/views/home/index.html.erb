@@ -7,7 +7,7 @@
     <div class="search">
       <form name="query" novalidate>
         <div class="taxonomies">
-          <select ng-model="taxonomy" ng-options="t.Label[0] for (uri, t) in taxonomies"></select>
+          <select ng-model="taxonomy" ng-change="loadFields()" ng-options="uri as t.Label[0] for (uri, t) in taxonomyList"></select>
         </div>
 
         <div class="field" ng-repeat="field in searchFields">
