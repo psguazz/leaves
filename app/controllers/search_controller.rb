@@ -6,11 +6,22 @@ class SearchController < ApplicationController
   @@sparql_uri = URI.parse(CONFIG['sparql_server'] + 'select?output=json')
 
   def fields
-    query = 'PREFIX foo: <' + CONFIG['ontology_prefix'] + '#>
+    query = 'PREFIX leaves: <' + CONFIG['leaves_prefix'] + '#>
              SELECT DISTINCT ?s ?p ?o
              WHERE {
-               ?s a foo:CompositionTaxonomyTag ;
+               ?s a leaves:CompositionTaxonomyTag ;
                   ?p ?o .
+             }'
+
+    render json: get_results(query)
+  end
+
+  def taxonomies
+    query = 'PREFIX leaves: <' + CONFIG['leaves_prefix'] + '#>
+             PREFIX skos: <' + CONFIG['skos_prefix'] + '#>
+              SELECT ?s ("Label" AS ?p) ?o WHERE {
+               ?s rdf:type leaves:Taxonomy ;
+                  skos:prefLabel ?o
              }'
 
     render json: get_results(query)

@@ -1,6 +1,7 @@
 defaults: &defaults
-  sparql_server: http://somethingsomething/sparql/
-  ontology_prefix: blargh
+  sparql_server: http://somethingsomething/
+  leaves_prefix: http://somethingsomething/
+  skos_prefix: http://somethingsomething/
 
 development:
   <<: *defaults
