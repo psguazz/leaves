@@ -6,12 +6,15 @@
 
     <div id="query-builder">
       <div id="taxonomies">
-        <select ng-model="taxonomy" ng-change="loadFields()" ng-options="uri as t.Label[0] for (uri, t) in taxonomyList"></select>
+        <select ng-model="taxonomy"
+                ng-change="loadFields()"
+                ng-options="uri as t.Label[0] for (uri, t) in taxonomyList">
+        </select>
       </div>
 
       <form id="query" novalidate>
         <div class="field" ng-repeat="field in searchFields">
-          <span class="fieldName">{{ field.name }}</span>
+          <span class="field-name">{{ field.Label[0] }}</span>
           <input type="text" ng-model="field.value">
         </div>
       </form>
@@ -23,9 +26,10 @@
 
     <div id="content">
       <ul class="item" ng-repeat="result in searchResults">
-        <li class="fieldName">{{ result }}</li>
+        <li>{{ result }}</li>
       </ul>
     </div>
 
   </div>
+
 </div>
