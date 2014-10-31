@@ -19,8 +19,10 @@ Leaves.controller('searchController', function ($scope, $http) {
   };
 
   $scope.search = function () {
-    var fields = _.map($scope.searchFields, function (f) {
-      return { name: f.name, value: f.value};
+    var fields = _($scope.searchFields).map(function (field, name) {
+      return {field: name, value: field.value};
+    }).filter(function (field) {
+      return !!field.value;
     });
 
     $http.post('search/fetch', {fields: fields}).then(function (results) {
