@@ -4,35 +4,45 @@ require 'json'
 
 class SearchController < ApplicationController
   @@sparql_uri = URI.parse(CONFIG['sparql_server'] + 'select?output=json')
+  @@taxonomy
 
-  def fields
-    taxonomy = params[:taxonomy]
+  def taxonomies
+    where = ['?s rdf:type leaves:Taxonomy',
+             '?s skos:prefLabel ?o']
 
-    query = 'PREFIX leaves: <' + CONFIG['leaves_prefix'] + '#>
-             PREFIX skos: <' + CONFIG['skos_prefix'] + '#>
-             SELECT DISTINCT ?s ("Label" AS ?p) ?o
-             WHERE {
-               ?t leaves:MemberOfCompositionTaxonomy <' + taxonomy + '> ;
-                  ?s ?v .
-               ?s skos:prefLabel ?o
-             }'
-
+    query = build_query(where, {:p => '("Label" AS ?p)'})
     render json: get_results(query)
   end
 
-  def taxonomies
-    query = 'PREFIX leaves: <' + CONFIG['leaves_prefix'] + '#>
-             PREFIX skos: <' + CONFIG['skos_prefix'] + '#>
-              SELECT ?s ("Label" AS ?p) ?o WHERE {
-               ?s rdf:type leaves:Taxonomy ;
-                  skos:prefLabel ?o
-             }'
+  def fields
+    @@taxonomy = params[:taxonomy]
 
+    where = ["?t leaves:MemberOfCompositionTaxonomy <#{@@taxonomy}>",
+             '?t ?s ?v',
+             '?s skos:prefLabel ?o']
+
+    query = build_query(where, {:p => '("Label" AS ?p)'})
     render json: get_results(query)
   end
 
   def fetch
-    render json: params[:fields]
+    return render json: nil if params[:fields] == nil
+    fields = params[:fields]
+
+    where = fields.map { |f| '?s <%s> "%s"' % [f['field'], f['value']] }
+    where += ["?s leaves:MemberOfCompositionTaxonomy <#{@@taxonomy}>"]
+    where += ['?s ?p ?o']
+
+    query = build_query(where)
+    render json: get_results(query)
+  end
+
+  def build_query(where, vars={})
+    s, p, o = (vars[:s] || '?s'), (vars[:p] || '?p'), (vars[:o] || '?o')
+
+    "PREFIX leaves: <" + CONFIG['leaves_prefix'] + "#>
+     PREFIX skos: <" + CONFIG['skos_prefix'] + "#>
+     SELECT #{s} #{p} #{o} WHERE { " + where.join(' . ') + " }"
   end
 
   def get_results(query)
