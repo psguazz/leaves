@@ -12,7 +12,7 @@
         </select>
       </div>
 
-      <form id="query" novalidate>
+      <form id="query" novalidate ng-submit="search()">
         <div class="field" ng-repeat="field in searchFields">
           <span class="field-name">{{ field.Label[0] }}</span>
           <input type="text" ng-model="field.value">

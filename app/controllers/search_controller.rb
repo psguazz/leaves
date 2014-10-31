@@ -26,7 +26,7 @@ class SearchController < ApplicationController
   end
 
   def fetch
-    return render json: nil if params[:fields] == nil
+    return render json: [] if params[:fields] == nil
     fields = params[:fields]
 
     where = fields.map { |f| '?s <%s> "%s"' % [f['field'], f['value']] }
