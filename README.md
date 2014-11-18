@@ -31,7 +31,7 @@ Make sure you create your own **application.yml** with all the settings as per t
 ### Marmotta
 This might be a little trickier. A few gotchas during the installation process (on Windows - haven't had the chance to try things anywhere else):
 * Make sure all the environment variables are set properly! These are **JAVA_HOME**, **JRE_HOME** and **CATALINA_HOME**. The Java stuff should be obvious, and the Catalina one should point to the Tomcat folder *in the marmotta installation folder* (as opposed to any other installation you may have);
-* Apparently there's something going on with the CSS if you're using a certain version of Java. Don't know what to do about it yet.
+* **NOTE:** needs Java 7! Things break down with Java 8. Life is pain.
 
 ### Ontology
 Here's the fun part. The app is supposed to be pretty flexible when it comes to ontologies, but has some expectations.
