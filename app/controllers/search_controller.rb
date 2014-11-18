@@ -4,10 +4,9 @@ require 'json'
 
 class SearchController < ApplicationController
   @@sparql_uri = URI.parse(CONFIG['sparql_server'] + 'select?output=json')
-  @@taxonomy
 
   def taxonomies
-    where = ['?s rdf:type leaves:Taxonomy',
+    where = ['?s rdf:type leaves:CompositionTaxonomy',
              '?s skos:prefLabel ?o']
 
     query = build_query(where, {:p => '("Label" AS ?p)'})
@@ -15,9 +14,9 @@ class SearchController < ApplicationController
   end
 
   def fields
-    @@taxonomy = params[:taxonomy]
+    taxonomy = params[:taxonomy]
 
-    where = ["?t leaves:MemberOfCompositionTaxonomy <#{@@taxonomy}>",
+    where = ["?t leaves:MemberOfTaxonomy <#{taxonomy}>",
              '?t ?s ?v',
              '?s skos:prefLabel ?o']
 
@@ -27,10 +26,11 @@ class SearchController < ApplicationController
 
   def fetch
     return render json: [] if params[:fields] == nil
+    taxonomy = params[:taxonomy]
     fields = params[:fields]
 
     where = fields.map { |f| '?s <%s> "%s"' % [f['field'], f['value']] }
-    where += ["?s leaves:MemberOfCompositionTaxonomy <#{@@taxonomy}>"]
+    where += ["?s leaves:MemberOfCompositionTaxonomy <#{taxonomy}>"]
     where += ['?s ?p ?o']
 
     query = build_query(where)

@@ -25,7 +25,10 @@ Leaves.controller('searchController', function ($scope, $http) {
       return !!field.value;
     });
 
-    $http.post('search/fetch', {fields: fields}).then(function (results) {
+    $http.post('search/fetch', {
+      taxonomy: $scope.taxonomy,
+      fields: fields
+    }).then(function (results) {
       $scope.searchResults = results.data;
     });
   };
