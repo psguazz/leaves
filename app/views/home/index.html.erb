@@ -1,26 +1,24 @@
-<div id="app" ng-app="leaves">
+<div id="app" ng-app="leaves" ng-controller="searchController">
 
-  <div id="toolbar"> Main bar </div>
+  <div id="toolbar">
+    <form id="query" novalidate ng-submit="search()">
+      <input type="text" class="form-control" ng-model="query">
+    <form>
+  </div>
 
-  <div id="body" ng-controller="searchController">
+  <div id="body">
 
     <div id="query-builder">
       <div id="taxonomies">
         <select ng-model="taxonomy"
-                ng-change="loadFields()"
                 ng-options="uri as t.Label[0] for (uri, t) in taxonomyList">
         </select>
       </div>
 
-      <form id="query" novalidate ng-submit="search()">
+      <div id="keywords">
         <div class="field" ng-repeat="field in searchFields">
-          <span class="field-name">{{ field.Label[0] }}</span>
-          <input type="text" ng-model="field.value">
+          <span class="field-name">{{ field }}</span>
         </div>
-      </form>
-
-      <div id="search">
-        <a class="btn-go btn btn-default" ng-click="search()"> Go! </a>
       </div>
     </div>
 

@@ -5,29 +5,23 @@ Leaves.controller('searchController', function ($scope, $http) {
   $scope.taxonomyList = [];
   $scope.searchFields = [];
   $scope.searchResults = [];
+  $scope.query = "";
 
   $http.get('search/taxonomies').then(function (taxonomies) {
     $scope.taxonomy = _.keys(taxonomies.data)[0];
     $scope.taxonomyList = taxonomies.data;
-    $scope.loadFields();
   });
 
-  $scope.loadFields = function () {
-    $http.post('search/fields', {taxonomy: $scope.taxonomy}).then(function (newFields) {
-      $scope.searchFields = newFields.data;
-    });
+  $scope.updateFields = function () {
+    $scope.searchFields = $.unique($.trim($scope.query).split(' '));
   };
 
   $scope.search = function () {
-    var fields = _($scope.searchFields).map(function (field, name) {
-      return {field: name, value: field.value};
-    }).filter(function (field) {
-      return !!field.value;
-    });
+    $scope.updateFields();
 
     $http.post('search/fetch', {
       taxonomy: $scope.taxonomy,
-      fields: fields
+      fields: $scope.searchFields
     }).then(function (results) {
       $scope.searchResults = results.data;
     });

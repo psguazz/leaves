@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   get 'search/taxonomies'
-  post 'search/fields'
   post 'search/fetch'
 
   root 'home#index'

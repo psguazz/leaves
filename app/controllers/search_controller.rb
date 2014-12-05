@@ -13,23 +13,12 @@ class SearchController < ApplicationController
     render json: get_results(query)
   end
 
-  def fields
-    taxonomy = params[:taxonomy]
-
-    where = ["?t leaves:MemberOfTaxonomy <#{taxonomy}>",
-             '?t ?s ?v',
-             '?s skos:prefLabel ?o']
-
-    query = build_query(where, {:p => '("Label" AS ?p)'})
-    render json: get_results(query)
-  end
-
   def fetch
     return render json: [] if params[:fields] == nil
     taxonomy = params[:taxonomy]
     fields = params[:fields]
 
-    where = fields.map { |f| '?s <%s> "%s"' % [f['field'], f['value']] }
+    where = fields.map { |f| '?s ?p "%s"' % f }
     where += ["?s leaves:MemberOfCompositionTaxonomy <#{taxonomy}>"]
     where += ['?s ?p ?o']
 
@@ -54,10 +43,10 @@ class SearchController < ApplicationController
   def parse_results(json_triples)
     results = {}
 
-    json_triples.each do |triple|
-      results[triple['s']['value']] = results[triple['s']['value']] || {}
-      results[triple['s']['value']][triple['p']['value']] = results[triple['s']['value']][triple['p']['value']] || []
-      results[triple['s']['value']][triple['p']['value']] += [triple['o']['value']]
+    json_triples.each do |t|
+      results[t['s']['value']] = results[t['s']['value']] || {}
+      results[t['s']['value']][t['p']['value']] = results[t['s']['value']][t['p']['value']] || []
+      results[t['s']['value']][t['p']['value']] += [t['o']['value']]
     end
 
     results
